@@ -10,11 +10,11 @@ screenTitle = "Crossy Roads"
 
 tileScaling = 0.5
 charScaling = tileScaling * 2
-spritePixelSize = 64
+spritePixelSize = 32
 gridPixelSize = (spritePixelSize * tileScaling)
 
 playStartX = 500
-playStartY = 64
+playStartY = 16
 
 def loadTexture(filename):
     return arcade.load_texture(filename)
@@ -24,12 +24,11 @@ class PlayerCharacter(arcade.Sprite):
         super().__init__()
         main_path = "./sprites/"
 
-        self.texture = loadTexture(f"{main_path}player.png")
+        self.texture = loadTexture(f"{main_path}player32.png")
         self.playerSprite = None
 
 
 class MyGame(arcade.Window):
-
     def __init__(self):
         super().__init__(screenWidth, screenHeight, screenTitle)
 
