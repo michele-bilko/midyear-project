@@ -22,9 +22,9 @@ def loadTexture(filename):
 class PlayerCharacter(arcade.Sprite):
     def __init__(self):
         super().__init__()
-      #  main_path = ":midyear-project/sprites"
+        main_path = "./sprites/"
 
-       # self.texture = loadTexture(f"C:/Users/miche/midyear-project/sprites/player.png")
+        self.texture = loadTexture(f"{main_path}player.png")
         self.playerSprite = None
 
 
