@@ -25,7 +25,6 @@ class PlayerCharacter(arcade.Sprite):
         main_path = "./sprites/"
 
         self.texture = loadTexture(f"{main_path}player32.png")
-        self.playerSprite = None
 
 
 class MyGame(arcade.Window):
@@ -34,6 +33,10 @@ class MyGame(arcade.Window):
 
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
+
+        self.playerSprite = None
+
+        self.walk = arcade.load_sound("./sounds/walk.wav")
 
     def setup(self):
         self.playerList = arcade.SpriteList()
