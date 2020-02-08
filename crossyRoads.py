@@ -11,7 +11,7 @@ screenTitle = "Crossy Roads"
 tileScaling = 0.5
 charScaling = tileScaling * 2
 spritePixelSize = 32
-gridPixelSize = (spritePixelSize * tileScaling)
+gridPixelSize = int(spritePixelSize * tileScaling)
 
 playStartX = 500
 playStartY = 16
@@ -40,17 +40,85 @@ class MyGame(arcade.Window):
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
 
+        self.wallList = None
+        self.enemyList = None
+        self.playerList = None
+
         self.playerSprite = None
+        self.physicsEngine = None
+        self.game_over = False
 
         self.walk = arcade.load_sound("./sounds/walk.wav")
 
     def setup(self):
+        self.wallList = arcade.SpriteList()
+        self.enemyList = arcade.SpriteList()
         self.playerList = arcade.SpriteList()
-        self.playerSprite = PlayerCharacter()
 
+        self.playerSprite = PlayerCharacter()
         self.playerSprite.center_x = playStartX
         self.playerSprite.center_y = playStartY
         self.playerList.append(self.playerSprite)
+
+        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+
+        enemy.bottom = 160
+        enemy.left = 16
+
+        enemy.boundary_right = 1000
+        enemy.boundary_left = 0
+        enemy.change_x = 7
+        self.enemyList.append(enemy)
+
+        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+
+        enemy.bottom = 288
+        enemy.left = 16
+
+        enemy.boundary_right = 1000
+        enemy.boundary_left = 0
+        enemy.change_x = 8
+        self.enemyList.append(enemy)
+
+        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+
+        enemy.bottom = 288
+        enemy.left = 256
+
+        enemy.boundary_right = 1000
+        enemy.boundary_left = 0
+        enemy.change_x = 8
+        self.enemyList.append(enemy)
+
+        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+
+        enemy.bottom = 416
+        enemy.left = 16
+
+        enemy.boundary_right = 1000
+        enemy.boundary_left = 0
+        enemy.change_x = 9
+        self.enemyList.append(enemy)
+
+        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+
+        enemy.bottom = 416
+        enemy.left = 256
+
+        enemy.boundary_right = 1000
+        enemy.boundary_left = 0
+        enemy.change_x = 9
+        self.enemyList.append(enemy)
+
+        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+
+        enemy.bottom = 416
+        enemy.left = 512
+
+        enemy.boundary_right = 1000
+        enemy.boundary_left = 0
+        enemy.change_x = 9
+        self.enemyList.append(enemy)
 
     def on_key_press(self, key, modifiers):
         global playerMovementSpeed
@@ -72,7 +140,6 @@ class MyGame(arcade.Window):
             self.playerSprite.change_x = playerMovementSpeed
             self.playerSprite.change_y = 0
 
-
     def on_key_release(self, key, modifiers):
         if key == up:
             self.playerSprite.change_y = 0
@@ -90,10 +157,28 @@ class MyGame(arcade.Window):
     def on_draw(self):
         arcade.start_render()
         self.playerList.draw()
+        self.wallList.draw()
+        self.enemyList.draw()
 
     def on_update(self, delta_time):
         self.playerList.update()
-        self.playerList.update_animation()
+
+        if not self.game_over:
+            self.enemyList.update()
+
+            for enemy in self.enemyList:
+                if len(arcade.check_for_collision_with_list(enemy, self.wallList)) > 0:
+                    enemy.change_x *= -1
+                elif enemy.boundary_left is not None and enemy.left < enemy.boundary_left:
+                    enemy.change_x *= -1
+                elif enemy.boundary_right is not None and enemy.right > enemy.boundary_right:
+                    enemy.change_x *= -1
+
+            if len(arcade.check_for_collision_with_list(self.playerSprite, self.enemyList)) > 0:
+                self.game_over = True
+
+        # need to implement else: for if game_over
+
 
 def main():
     window = MyGame()
