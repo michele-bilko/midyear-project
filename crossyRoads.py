@@ -60,6 +60,11 @@ class MyGame(arcade.Window):
         self.playerSprite.center_y = playStartY
         self.playerList.append(self.playerSprite)
 
+        player = PlayerCharacter()
+        player.boundary_right = 1000
+        player.boundary_left = 0
+        player.boundary_top = 650
+
         enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
 
         enemy.bottom = 160
@@ -147,6 +152,7 @@ class MyGame(arcade.Window):
             self.playerSprite.change_x = 0
         elif key == right:
             self.playerSprite.change_x = 0
+
         elif key == up and key == right:
             self.playerSprite.change_x = 0
             self.playerSprite.change_y = 0
