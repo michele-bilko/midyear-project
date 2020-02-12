@@ -127,10 +127,7 @@ class MyGame(arcade.Window):
 
     def on_key_press(self, key, modifiers):
         global playerMovementSpeed
-        diagonal = 0
         if key == up and (key == right or key == left):
-            diagonal = 1
-        if diagonal == 1:
             playerMovementSpeed = 0
             self.playerSprite.change_x = playerMovementSpeed
             self.playerSprite.change_y = playerMovementSpeed
@@ -144,6 +141,8 @@ class MyGame(arcade.Window):
         elif key == right:
             self.playerSprite.change_x = playerMovementSpeed
             self.playerSprite.change_y = 0
+
+
 
     def on_key_release(self, key, modifiers):
         if key == up:
@@ -159,6 +158,7 @@ class MyGame(arcade.Window):
         elif key == up and key == left:
             self.playerSprite.change_x = 0
             self.playerSprite.change_y = 0
+
 
     def on_draw(self):
         arcade.start_render()
