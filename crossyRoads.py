@@ -1,6 +1,7 @@
 """
 Crossy roads
 """
+import random
 import arcade
 import os
 
@@ -125,6 +126,15 @@ class MyGame(arcade.Window):
         enemy.change_x = 9
         self.enemyList.append(enemy)
 
+        for y in range(200, 1650, 210):
+            for x in range(0, 1000, 64):
+                # Randomly skip a box so the player can find a way through
+                if random.randrange(5) > 0:
+                    wall = arcade.Sprite("./sprites/NEWGND1.png", tileScaling)
+                    wall.center_x = x
+                    wall.center_y = y
+                    self.wallList.append(wall)
+
     def on_key_press(self, key, modifiers):
         global playerMovementSpeed
         if key == up and (key == right or key == left):
@@ -165,6 +175,22 @@ class MyGame(arcade.Window):
         self.playerList.draw()
         self.wallList.draw()
         self.enemyList.draw()
+        """
+        # tiles
+        Bgnd1A = arcade.Sprite("./sprites/Bgnd1A.png", tileScaling)
+        Bgnd1A.bottom = 16
+        Bgnd1A.left = 200
+        self.wallList.append(Bgnd1A)
+
+        Bgnd1B = arcade.Sprite("./sprites/Bgnd1A.png", tileScaling)
+        Bgnd1B.bottom = 16
+        Bgnd1B.left = 288
+        self.wallList.append(Bgnd1B)
+
+        """
+
+
+
 
     def on_update(self, delta_time):
         self.playerList.update()
