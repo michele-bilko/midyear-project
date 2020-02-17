@@ -179,20 +179,6 @@ class MyGame(arcade.Window):
         self.playerList.draw()
         self.wallList.draw()
         self.enemyList.draw()
-        """
-        # tiles
-        Bgnd1A = arcade.Sprite("./sprites/Bgnd1A.png", tileScaling)
-        Bgnd1A.bottom = 16
-        Bgnd1A.left = 200
-        self.wallList.append(Bgnd1A)
-
-        Bgnd1B = arcade.Sprite("./sprites/Bgnd1A.png", tileScaling)
-        Bgnd1B.bottom = 16
-        Bgnd1B.left = 288
-        self.wallList.append(Bgnd1B)
-
-        """
-
 
     def on_update(self, delta_time):
         self.playerList.update()
