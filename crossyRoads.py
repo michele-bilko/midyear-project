@@ -73,7 +73,7 @@ class MyGame(arcade.Window):
 
         enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
 
-        enemy.bottom = 160
+        enemy.bottom = 65
         enemy.left = 16
 
         enemy.boundary_right = 1000
@@ -83,7 +83,17 @@ class MyGame(arcade.Window):
 
         enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
 
-        enemy.bottom = 288
+        enemy.bottom = 110
+        enemy.left = 970
+
+        enemy.boundary_right = 1000
+        enemy.boundary_left = 0
+        enemy.change_x = 7
+        self.enemyList.append(enemy)
+
+        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+
+        enemy.bottom = 280
         enemy.left = 16
 
         enemy.boundary_right = 1000
@@ -93,8 +103,8 @@ class MyGame(arcade.Window):
 
         enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
 
-        enemy.bottom = 416
-        enemy.left = 16
+        enemy.bottom = 320
+        enemy.left = 970
 
         enemy.boundary_right = 1000
         enemy.boundary_left = 0
