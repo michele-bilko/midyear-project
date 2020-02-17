@@ -202,17 +202,17 @@ class MyGame(arcade.Window):
 
         changed = False
 
-        # Scroll left
-        left_boundary = self.view_left + VIEWPORT_MARGIN
-        if self.playerSprite.left < left_boundary:
-            self.view_left -= left_boundary - self.playerSprite.left
-            changed = True
-
-        # Scroll right
-        right_boundary = self.view_left + screenWidth - VIEWPORT_MARGIN
-        if self.playerSprite.right > right_boundary:
-            self.view_left += self.playerSprite.right - right_boundary
-            changed = True
+        # # Scroll left
+        # left_boundary = self.view_left + VIEWPORT_MARGIN
+        # if self.playerSprite.left < left_boundary:
+        #     self.view_left -= left_boundary - self.playerSprite.left
+        #     changed = True
+        #
+        # # Scroll right
+        # right_boundary = self.view_left + screenWidth - VIEWPORT_MARGIN
+        # if self.playerSprite.right > right_boundary:
+        #     self.view_left += self.playerSprite.right - right_boundary
+        #     changed = True
 
         # Scroll up
         top_boundary = self.view_bottom + screenHeight - VIEWPORT_MARGIN
