@@ -24,6 +24,8 @@ up = arcade.key.UP
 left = arcade.key.LEFT
 right = arcade.key.RIGHT
 
+VIEWPORT_MARGIN = 40
+
 def loadTexture(filename):
     return arcade.load_texture(filename)
 
@@ -49,6 +51,8 @@ class MyGame(arcade.Window):
         self.playerSprite = None
         self.physicsEngine = None
         self.game_over = False
+        self.view_bottom = 0
+        self.view_left = 0
 
         self.walk = arcade.load_sound("./sounds/walk.wav")
 
@@ -209,6 +213,46 @@ class MyGame(arcade.Window):
 
         # need to implement else: for if game_over
 
+
+        changed = False
+
+        # Scroll left
+        left_boundary = self.view_left + VIEWPORT_MARGIN
+        if self.playerSprite.left < left_boundary:
+            self.view_left -= left_boundary - self.playerSprite.left
+            changed = True
+
+        # Scroll right
+        right_boundary = self.view_left + screenWidth - VIEWPORT_MARGIN
+        if self.playerSprite.right > right_boundary:
+            self.view_left += self.playerSprite.right - right_boundary
+            changed = True
+
+        # Scroll up
+        top_boundary = self.view_bottom + screenHeight - VIEWPORT_MARGIN
+        if self.playerSprite.top > top_boundary:
+            self.view_bottom += self.playerSprite.top - top_boundary
+            changed = True
+
+        # Scroll down
+        bottom_boundary = self.view_bottom + VIEWPORT_MARGIN
+        if self.playerSprite.bottom < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.playerSprite.bottom
+            changed = True
+
+        # Make sure our boundaries are integer values. While the view port does
+        # support floating point numbers, for this application we want every pixel
+        # in the view port to map directly onto a pixel on the screen. We don't want
+        # any rounding errors.
+        self.view_left = int(self.view_left)
+        self.view_bottom = int(self.view_bottom)
+
+        # If we changed the boundary values, update the view port to match
+        if changed:
+            arcade.set_viewport(self.view_left,
+                                screenWidth + self.view_left - 1,
+                                self.view_bottom,
+                                screenHeight + self.view_bottom - 1)
 
 def main():
     window = MyGame()
