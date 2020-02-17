@@ -128,7 +128,7 @@ class MyGame(arcade.Window):
         self.enemyList.append(enemy)
 
         for y in range(200, 1650, 210):
-            for x in range(0, 1000, 64):
+            for x in range(0, 1000, 150):
                 # Randomly skip a box so the player can find a way through
                 if random.randrange(5) > 0:
                     wall = arcade.Sprite("./sprites/FINALBOX.png", tileScaling)
