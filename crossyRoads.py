@@ -20,6 +20,7 @@ playStartY = 16
 playerMovementSpeed = 5
 
 up = arcade.key.UP
+
 left = arcade.key.LEFT
 right = arcade.key.RIGHT
 
@@ -130,7 +131,7 @@ class MyGame(arcade.Window):
             for x in range(0, 1000, 64):
                 # Randomly skip a box so the player can find a way through
                 if random.randrange(5) > 0:
-                    wall = arcade.Sprite("./sprites/NEWGND1.png", tileScaling)
+                    wall = arcade.Sprite("./sprites/FINALBOX.png", tileScaling)
                     wall.center_x = x
                     wall.center_y = y
                     self.wallList.append(wall)
@@ -141,7 +142,6 @@ class MyGame(arcade.Window):
             playerMovementSpeed = 0
             self.playerSprite.change_x = playerMovementSpeed
             self.playerSprite.change_y = playerMovementSpeed
-
         if key == up:
             self.playerSprite.change_y = playerMovementSpeed
             self.playerSprite.change_x = 0
@@ -188,8 +188,6 @@ class MyGame(arcade.Window):
         self.wallList.append(Bgnd1B)
 
         """
-
-
 
 
     def on_update(self, delta_time):
