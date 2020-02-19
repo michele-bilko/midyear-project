@@ -71,84 +71,104 @@ class MyGame(arcade.Window):
         player.boundary_left = 0
         player.boundary_top = 650
 
-        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+        # enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+        #
+        # enemy.bottom = 65
+        # enemy.left = 16
+        #
+        # enemy.boundary_right = 1000
+        # enemy.boundary_left = 0
+        # enemy.change_x = 7
+        # self.enemyList.append(enemy)
+        #
+        # enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+        #
+        # enemy.bottom = 110
+        # enemy.left = 970
+        #
+        # enemy.boundary_right = 1000
+        # enemy.boundary_left = 0
+        # enemy.change_x = 7
+        # self.enemyList.append(enemy)
+        #
+        # enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+        #
+        # enemy.bottom = 280
+        # enemy.left = 16
+        #
+        # enemy.boundary_right = 1000
+        # enemy.boundary_left = 0
+        # enemy.change_x = 8
+        # self.enemyList.append(enemy)
+        #
+        # enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+        #
+        # enemy.bottom = 320
+        # enemy.left = 970
+        #
+        # enemy.boundary_right = 1000
+        # enemy.boundary_left = 0
+        # enemy.change_x = 8
+        # self.enemyList.append(enemy)
+        #
+        # enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+        #
+        # enemy.bottom = 416
+        # enemy.left = 256
+        #
+        # enemy.boundary_right = 1000
+        # enemy.boundary_left = 0
+        # enemy.change_x = 9
+        # self.enemyList.append(enemy)
+        #
+        # enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+        #
+        # enemy.bottom = 544
+        # enemy.left = 16
+        #
+        # enemy.boundary_right = 1000
+        # enemy.boundary_left = 0
+        # enemy.change_x = 9
+        # self.enemyList.append(enemy)
+        #
+        # enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+        #
+        # enemy.bottom = 544
+        # enemy.left = 256
+        #
+        # enemy.boundary_right = 1000
+        # enemy.boundary_left = 0
+        # enemy.change_x = 9
+        # self.enemyList.append(enemy)
 
-        enemy.bottom = 65
-        enemy.left = 16
-
-        enemy.boundary_right = 1000
-        enemy.boundary_left = 0
-        enemy.change_x = 7
-        self.enemyList.append(enemy)
-
-        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
-
-        enemy.bottom = 110
-        enemy.left = 970
-
-        enemy.boundary_right = 1000
-        enemy.boundary_left = 0
-        enemy.change_x = 7
-        self.enemyList.append(enemy)
-
-        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
-
-        enemy.bottom = 280
-        enemy.left = 16
-
-        enemy.boundary_right = 1000
-        enemy.boundary_left = 0
-        enemy.change_x = 8
-        self.enemyList.append(enemy)
-
-        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
-
-        enemy.bottom = 320
-        enemy.left = 970
-
-        enemy.boundary_right = 1000
-        enemy.boundary_left = 0
-        enemy.change_x = 8
-        self.enemyList.append(enemy)
-
-        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
-
-        enemy.bottom = 416
-        enemy.left = 256
-
-        enemy.boundary_right = 1000
-        enemy.boundary_left = 0
-        enemy.change_x = 9
-        self.enemyList.append(enemy)
-
-        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
-
-        enemy.bottom = 544
-        enemy.left = 16
-
-        enemy.boundary_right = 1000
-        enemy.boundary_left = 0
-        enemy.change_x = 9
-        self.enemyList.append(enemy)
-
-        enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
-
-        enemy.bottom = 544
-        enemy.left = 256
-
-        enemy.boundary_right = 1000
-        enemy.boundary_left = 0
-        enemy.change_x = 9
-        self.enemyList.append(enemy)
-
-        for y in range(256, 1650, 160):
+        for y in range(320, 1650, 160):
             for x in range(0, 1000, 64):
                 # Randomly skip a box so the player can find a way through
                 if random.randrange(5) > 0:
-                    wall = arcade.Sprite("./sprites/FINALBOX.png", tileScaling)
+                    wall = arcade.Sprite("./sprites/REALBOX.png", tileScaling)
                     wall.center_x = x
                     wall.center_y = y
                     self.wallList.append(wall)
+
+        for y in range(416, 1650, 224):
+            m = 16
+            n = 1000
+            z = 9
+            for x in range(m, 1000,n):
+                enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
+
+                enemy.bottom = y
+                enemy.left = x
+
+                enemy.boundary_right = 1000
+                enemy.boundary_left = 0
+                enemy.change_x = z
+                self.enemyList.append(enemy)
+
+                z += 0.25
+                m += 256
+                n -= 128
+
 
     def on_key_press(self, key, modifiers):
         global playerMovementSpeed
