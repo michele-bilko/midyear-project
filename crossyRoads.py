@@ -19,7 +19,7 @@ playStartX = 500
 playStartY = 16
 
 # movement variables
-playerMovementSpeed = 6
+playerMovementSpeed = 4
 up = arcade.key.UP
 left = arcade.key.LEFT
 right = arcade.key.RIGHT
@@ -36,13 +36,13 @@ def loadTexture(filename):
 class MenuView(arcade.View):
     # creates starting menu
     def on_show(self):
-        arcade.set_background_color(arcade.color.BLUE)
+        arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
         arcade.start_render()
         arcade.draw_text("Menu Screen", screenWidth/2, screenHeight/2,
                          arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Click to advance", screenWidth/2, screenHeight/2-75,
+        arcade.draw_text("Click to begin", screenWidth/2, screenHeight/2-75,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
@@ -74,6 +74,7 @@ class MyGame(arcade.View):
         self.wallList = arcade.SpriteList()
         self.enemyList = arcade.SpriteList()
         self.playerList = arcade.SpriteList()
+        self.winList = arcade.SpriteList()
 
         self.playerSprite = PlayerCharacter()
         self.playerSprite.center_x = playStartX
@@ -86,7 +87,7 @@ class MyGame(arcade.View):
 
         # creates enemies with combination of for loops
         i = 16
-        for y in range(240, 1650, 320):
+        for y in range(180, 1650, 240):
             i += 112
             for x in range(16, i + 1, 112):
                 enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
@@ -97,26 +98,36 @@ class MyGame(arcade.View):
                 enemy.change_x = 7
                 self.enemyList.append(enemy)
         c = 16
-        for y in range(400, 1650, 320):
+        z = 7
+        for y in range(300, 1650, 240):
             c += 112
+            z += 0.5
             for x in range(16, c + 1, 112):
                 enemy = arcade.Sprite("./sprites/enemy.png", tileScaling)
                 enemy.bottom = y
                 enemy.left = x
                 enemy.boundary_right = 1000
                 enemy.boundary_left = 0
-                enemy.change_x = 7
+                enemy.change_x = z
                 self.enemyList.append(enemy)
 
 
-        for y in range(160, 1650, 160):
-            for x in range(0, 1000, 64):
+        for y in range(120, 1650, 120):
+            for x in range(0, 1000, 72):
                 # creates obstacles for player
-                if random.randrange(5) > 0:
+                if random.randrange(10) > 1:
                     wall = arcade.Sprite("./sprites/REALBOX.png", tileScaling)
                     wall.center_x = x
                     wall.center_y = y
                     self.wallList.append(wall)
+
+        win = arcade.Sprite("./sprites/win.png")
+        win.center_x = 500
+        win.center_y = 1800
+        self.winList.append(win)
+
+        self.physics_engine = arcade.PhysicsEngineSimple(self.playerSprite, self.wallList)
+
 
 
     def on_key_press(self, key, modifiers):
@@ -162,6 +173,7 @@ class MyGame(arcade.View):
         self.playerList.draw()
         self.wallList.draw()
         self.enemyList.draw()
+        self.winList.draw()
 
     def on_update(self, delta_time):
 
@@ -183,10 +195,15 @@ class MyGame(arcade.View):
                 self.game_over = True
 
         # brings to losing screen
-        elif self.game_over:
-            game_over_view = GameOver()
-            self.window.set_mouse_visible(True)
-            self.window.show_view(game_over_view)
+            if self.game_over:
+                game_over_view = GameOver()
+                self.window.set_mouse_visible(True)
+                self.window.show_view(game_over_view)
+
+        if len(arcade.check_for_collision_with_list(self.playerSprite, self.winList)) > 0:
+            win_view = WinView()
+            self.window.show_view(win_view)
+
 
 
         changed = False
@@ -206,23 +223,42 @@ class MyGame(arcade.View):
                                 screenWidth + self.view_left - 1,
                                 self.view_bottom,
                                 screenHeight + self.view_bottom - 1)
-class GameOver(arcade.View):
-    # creates game over screen
+
+        self.physics_engine.update()
+
+class WinView(arcade.View):
+    # creates win screen
     def __init__(self):
         super().__init__()
-        self.time_taken = 0
 
     def on_show(self):
-        arcade.set_background_color(arcade.color.BLACK)
+        arcade.set_background_color(arcade.color.GREEN)
 
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_text("Game Over", 240, 400, arcade.color.WHITE, 54)
-        arcade.draw_text("Click to restart", 310, 300, arcade.color.WHITE, 24)
+        arcade.draw_text("You Won!", 350, 325, arcade.color.WHITE, 54)
+        arcade.draw_text("Click to restart", 410, 225, arcade.color.WHITE, 24)
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         game_view = MyGame()
         self.window.show_view(game_view)
+
+class GameOver(arcade.View):
+    # creates game over screen
+    def __init__(self):
+        super().__init__()
+
+    def on_show(self):
+        arcade.set_background_color(arcade.color.RED)
+
+    def on_draw(self):
+        arcade.start_render()
+        arcade.draw_text("Game Over", 350, 325, arcade.color.WHITE, 54)
+        arcade.draw_text("Click to restart", 410, 225, arcade.color.WHITE, 24)
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        start_view = MenuView()
+        self.window.show_view(start_view)
 
 def main():
     window = arcade.Window(screenWidth, screenHeight, screenTitle)
